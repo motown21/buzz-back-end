@@ -1,19 +1,19 @@
 const mongoose = require('mongoose')
 
-const postSchema = new mongoose.Schema({
+const profileSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
-  picture: {
+  age: {
     type: String,
     required: true
   },
-  message: {
+  email: {
     type: String,
     required: true
   },
-  time: {
+  bio: {
     type: String,
     required: true
   },
@@ -26,4 +26,4 @@ const postSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('Post', postSchema)
+module.exports = mongoose.model('Profile', profileSchema)
