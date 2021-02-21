@@ -20,7 +20,8 @@ const router = express.Router()
 // INDEX
 // GET /
 router.get('/profiles', requireToken, (req, res, next) => {
-  Profile.find()
+  console.log('owner is', req.user._id)
+  Profile.find({ owner: req.user._id })
     .then(profiles => {
       // `profiles` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -33,11 +34,31 @@ router.get('/profiles', requireToken, (req, res, next) => {
     .catch(next)
 })
 
+// // INDEX
+// // GET /
+// router.get('/profiles/user', requireToken, (req, res, next) => {
+//   console.log('owner is', req.user._id)
+//   Profile.find({ owner: req.user._id })
+//     .then(profiles => {
+//       // `profiles` will be an array of Mongoose documents
+//       // we want to convert each one to a POJO, so we use `.map` to
+//       // apply `.toObject` to each one
+//       return profiles.map(profile => profile.toObject())
+//     })
+//     // respond with status 200 and JSON of the profiles
+//     .then(profile => res.status(200).json({ profile: profile }))
+//     // if an error occurs, pass it to the handler
+//     .catch(next)
+// })
+
 // SHOW
 // GET /profiles/5a7db6c74d55bc51bdf39793
 router.get('/profiles/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
-  Profile.findById(req.params.id)
+  console.log('owner is', req.user._id)
+  console.log('id is', req.params._id)
+
+  Profile.findOne({ id: req.params._id, owner: req.user._id })
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "profile" JSON
     .then(profile => res.status(200).json({ profile: profile.toObject() }))
@@ -69,7 +90,7 @@ router.patch('/profiles/:id', requireToken, removeBlanks, (req, res, next) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.profile.owner
 
-  Profile.findById(req.params.id)
+  Profile.findOneAndUpdate({ _id: req.params.id, owner: req.user._id }, req.body.profile)
     .then(handle404)
     .then(profile => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
@@ -88,7 +109,7 @@ router.patch('/profiles/:id', requireToken, removeBlanks, (req, res, next) => {
 // DESTROY
 // DELETE /profiles/5a7db6c74d55bc51bdf39793
 router.delete('/profiles/:id', requireToken, (req, res, next) => {
-  Profile.findById(req.params.id)
+  Profile.findOneAndDelete({ id: req.params.id, owner: req.user._id })
     .then(handle404)
     .then(profile => {
       // throw an error if current user doesn't own `profile`

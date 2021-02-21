@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const postSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true
   },
-  picture: {
+  media: {
     type: String,
     required: true
   },
@@ -13,10 +13,7 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  time: {
-    type: String,
-    required: true
-  },
+
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

@@ -6,7 +6,6 @@ const cors = require('cors')
 // require route files
 const postRoutes = require('./app/routes/post_routes')
 const profileRoutes = require('./app/routes/profile_routes')
-const exampleRoutes = require('./app/routes/example_routes')
 const userRoutes = require('./app/routes/user_routes')
 
 // require middleware
@@ -56,9 +55,6 @@ app.use(express.urlencoded({ extended: true }))
 
 // log each request as it comes in for debugging
 app.use(requestLogger)
-
-// register route files
-app.use(exampleRoutes)
 app.use(userRoutes)
 app.use(profileRoutes)
 app.use(postRoutes)
