@@ -3,7 +3,7 @@ const express = require('express')
 const passport = require('passport')
 
 // pull in Mongoose model for profiles
-const Profile = require('../models/Profile')
+const Profile = require('../models/profile')
 
 const customErrors = require('../../lib/custom_errors')
 
