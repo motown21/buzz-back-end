@@ -2,7 +2,7 @@ const express = require('express')
 
 const passport = require('passport')
 
-const Post = require('../models/Post')
+const Post = require('../models/post')
 const customErrors = require('../../lib/custom_errors')
 
 const handle404 = customErrors.handle404
